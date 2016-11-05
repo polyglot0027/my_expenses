@@ -13,11 +13,12 @@ require "rexml/document"
 require "date"
 
 file_name = File.dirname(__FILE__) + "/data/my_expenses.xml"
+
 abort "File was not found" unless File.exist?(file_name)
 
 doc = REXML::Document.new(IO.read(file_name))
 
-amount_by_day = {}
+amount_by_day = Hash.new
 
 doc.elements.each("expenses/expense") do |item|
   loss_sum = item.attributes["amount"].to_i
@@ -27,7 +28,7 @@ doc.elements.each("expenses/expense") do |item|
   amount_by_day[loss_date] += loss_sum
 end
 
-sum_by_month = {}
+sum_by_month = Hash.new
 
 current_month = amount_by_day.keys.sort[0].strftime("%B %Y")
 
